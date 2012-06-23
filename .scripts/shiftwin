@@ -1,0 +1,21 @@
+#!/bin/bash
+
+WID=`xwininfo -tree -id $(xdpyinfo | grep focus | grep -E -o 0x[0-9a-f]+) | grep "Parent.*id: " | grep -o "0x[^\ ]*"`
+
+X=`xwininfo -id $WID| grep "Abs.*left X" | grep -o [0-9]*`
+Y=`xwininfo -id $WID| grep "Abs.*left Y" | grep -o [0-9]*`
+#xwininfo -id $WID > /dev/pts/12
+#echo $X - $Y > /dev/pts/12
+#exit
+
+if [ $# -ne 1 ]; then
+	echo no screen specified. doing nothing.
+	exit
+fi
+
+if [ $X -ge 1920 ] && [ $1 == "l" ]; then
+	wmctrl -r :ACTIVE: -e 0,$((X-1925)),-1,-1,-1
+elif [ $X -le 1920 ] && [ $1 == "r" ]; then
+	wmctrl -r :ACTIVE: -e 0,$((X+1915)),-1,-1,-1
+	
+fi

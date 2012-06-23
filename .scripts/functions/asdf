@@ -1,0 +1,17 @@
+#!/bin/bash
+ 
+viscreen() {
+    full_path=`readlink -f "$1"`;
+    full_path=${full_path//\//\\\\}
+    screens=`screen -ls | egrep '[0-9]+\.' | sed 's/^\t[0-9]*\.//' | sed 's/\t.*$/ /' | grep "${full_path} "`;
+ 
+    if [ -n "$screens" ];
+    then
+        screen -x $screens;
+    else
+        screen -S "${full_path//\\\\/\\}" vim "${full_path//\\\\//}" ;
+    fi
+ 
+}
+
+

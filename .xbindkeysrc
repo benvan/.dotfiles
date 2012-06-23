@@ -1,0 +1,39 @@
+#Media Scroll Wheel Up
+#"/usr/bin/xte 'keydown Control_L' 'key Page_Down' 'keyup Control_L' &"
+#b:7
+
+#Media Scroll Wheel Down
+#"/usr/bin/xte 'keydown Control_L' 'key Page_Up' 'keyup Control_L' &"
+#b:6
+
+#Change search button to do button 2 left/right together (or middle click)
+#"/usr/bin/xte 'mousedown 2' &"
+#c:0xE1
+
+#"/usr/bin/xte 'mouseup 2' &"
+#c:0xE1 + Release
+
+#"memu 2"
+  #m:0x10 + c:225
+
+#"/usr/bin/xte"
+#nautilus back
+"/usr/bin/xte 'keydown Alt_L' 'key Left' 'keyup Alt_L' &"
+m:0x0 + b:8
+
+#nautilus forward
+"/usr/bin/xte 'keydown Alt_L' 'key Right' 'keyup Alt_L' &"
+m:0x0 + b:9
+
+#Thumb Scroll Wheel Up
+#"/usr/bin/xte 'keydown Control_L' 'key w' 'keyup Control_L' &"
+"/usr/bin/xte 'mouseclick 1' 'key Home' 'str i.' 'key End' 'str .jpg' 'key Return' &"
+b:13
+
+#Thumb Scroll Wheel Down
+"/usr/bin/xte 'key m' 'key O' 'key 4' &"
+b:15
+
+#Thumb Scroll Wheel In
+"/usr/bin/xte 'key m' 'usleep 500000' 'key 4' &"
+b:17

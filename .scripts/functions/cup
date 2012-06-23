@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cup () {
+  if [[ $1 =~ [0-9]+ ]]; then
+    up=$1
+  else
+    up=$(pwd | sed s/.*$1[^/]*// | grep -o / | wc -l)
+  fi
+
+  cd ./$(printf "%*s" $up | sed s/./..\\//g)
+}

@@ -1,0 +1,22 @@
+#!/bin/sh
+export BOLD=`tput bold`
+export UNDERLINE_ON=`tput smul`
+export UNDERLINE_OFF=`tput rmul`
+export TEXT_BLACK=`tput setaf 0`
+export TEXT_RED=`tput setaf 1`
+export TEXT_GREEN=`tput setaf 2`
+export TEXT_YELLOW=`tput setaf 3`
+export TEXT_BLUE=`tput setaf 4`
+export TEXT_MAGENTA=`tput setaf 5`
+export TEXT_CYAN=`tput setaf 6`
+export TEXT_WHITE=`tput setaf 7`
+export RESET_FORMATTING=`tput sgr0`
+
+
+mvn $* | sed \
+         -e "s/\(\[WARNING\].*\)/${TEXT_YELLOW}\1${RESET_FORMATTING}/g" \
+                -e "s/\(\[ERROR\].*\)/${TEXT_RED}\1${RESET_FORMATTING}/g" \
+                       -e "s/\(.*Failures:\s*[123456789].*\)/$TEXT_RED\1$RESET_FORMATTING/i" \
+                              -e "s/\(.*Errors:\s*[123456789].*\)/$TEXT_RED\1$RESET_FORMATTING/i" \
+                                     -e "s/\(.*Failures:\s*0,\s*Errors:\s*0.*\)/$TEXT_GREEN\1$RESET_FORMATTING/i" \
+                                            -e "s/\(.*Errors:\s*0,\s*Failures:\s*0.*\)/$TEXT_GREEN\1$RESET_FORMATTING/i"

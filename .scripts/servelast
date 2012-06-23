@@ -1,0 +1,3 @@
+#!/bin/bash
+
+serve `\ls -t ~/Desktop/screenshot*`

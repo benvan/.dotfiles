@@ -1,0 +1,6 @@
+#!/bin/bash
+
+[[ $2 ]] && svn status | grep "^$1" | cut -c9- | sed -n $2p && exit
+[[ $1 ]] && svn status | grep "^$1" | cut -c9- && exit
+svn status | cut -c9-
+

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#store window id and pts for later retrieval
+data=$HOME/.scripts/data/terminals
+TTY=$(tty | grep -o "[0-9]*")
+WINID=`xwininfo -tree -id $(xdpyinfo | grep focus | grep -E -o 0x[0-9a-f]+) | grep "Parent.*id: " | grep -o "0x[^\ ]*"`
+touch $data
+sed -i -e /pts\:\ $TTY/d $data 
+echo "pts: $TTY, windowid: $WINID" >> $data 
+

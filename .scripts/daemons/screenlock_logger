@@ -1,0 +1,12 @@
+#!/bin/bash
+LOG=~/.scripts/daemons/locklog.txt
+
+dbus-monitor \
+  --session "type='signal',interface='org.gnome.ScreenSaver',member='ActiveChanged'" \
+  | while read EVENT
+do
+  EVENT=`echo $EVENT | egrep -o "true|false"`
+  [[ $EVENT == true ]] && echo -n "IN  : "  >> $LOG
+  [[ $EVENT == false ]] && echo -n "OUT : " >> $LOG
+  [[ $EVENT ]] && date >> $LOG
+done

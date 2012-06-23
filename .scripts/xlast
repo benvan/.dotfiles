@@ -1,0 +1,23 @@
+#!/bin/bash
+into=$1
+downdir=~/Downloads
+last=$(ls $downdir -t | head -n1)
+
+if [[ ! -d $into ]]; then
+  mkdir $into;
+fi
+
+case "$last" in
+  *.zip )
+    unzip "$downdir/$last" -d $1;;
+  *.tar.gz )
+    tar -xvzf "$downdir/$last" -C $1;;
+  *.tar.bz2 )
+    tar -xvjf "$downdir/$last" -C $1;;
+   *.tar )
+    tar -xvf "$downdir/$last" -C $1;;
+  *.rar )
+    unrar x "$downdir/$last" $1;;
+  * )
+    echo couldn\'t recognise filetype;;
+esac

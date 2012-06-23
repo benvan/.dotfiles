@@ -1,0 +1,11 @@
+#!/bin/bash
+file=/home/ben/test.java
+if [[ $1 == up ]]; then
+  date > ~/up
+  cat $file | xclip -selection clip-board
+  /usr/bin/xte 'keydown Control_L' 'key a' 'key v' 'keyup Control_L'
+else
+  date > ~/down
+  /usr/bin/xte 'keydown Control_L' 'key a' 'key c' 'key v' 'keyup Control_L' 'key Left' && sleep 0.2 && xclip -o -selection clip-board > $file
+fi
+

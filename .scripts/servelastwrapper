@@ -1,0 +1,15 @@
+#!/bin/bash
+PATH=$PATH:/home/ben/.scripts
+
+if [[ $1 ]]; then
+  servelast
+  exit
+fi
+
+if [ `pgrep -f "python -m SimpleHTTPServer"` ]; then
+  notify-send "Rehosted"
+  /home/ben/.scripts/servelast
+else
+  gnome-terminal --display=:0.0 -e "/home/ben/.scripts/servelastwrapper a"
+fi
+

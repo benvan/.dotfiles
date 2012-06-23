@@ -1,0 +1,27 @@
+#!/bin/bash
+
+FILE=;
+
+if [[ $1 ]]; then
+  FILE=`basename $1`
+  FULLPATH=`readlink -f $1`
+
+  if [ -f $1 ]; then
+    if [ ! -d ~/.pythonserver ];then
+      mkdir ~/.pythonserver
+    fi
+    
+    cd ~/.pythonserver
+    rm ~/.pythonserver/*
+    ln -s $FULLPATH $FILE
+  fi
+fi
+
+echo "http://"`wget http://automation.whatismyip.com/n09230945.asp -O - -o /dev/null`":8000/$FILE" | xclip -selection clipboard
+
+if [ ! `pgrep -f "python -m SimpleHTTPServer"` ]; then
+  python -m SimpleHTTPServer
+else
+  echo Rehosted. Server still running somewhere.
+fi
+
