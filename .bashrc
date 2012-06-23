@@ -62,7 +62,7 @@ if [[ -n "$PS1" ]] ; then
     fi
 
 __git_ps1_(){
-  [[ $PWD != $HOME ]] && __git_ps1 $1
+  [[ $HOME/.dotfiles != $(__gitdir) ]] && __git_ps1 $1
 }
 
 export PS1="\[\033[38;5;75m\]\

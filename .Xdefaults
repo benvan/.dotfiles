@@ -4,7 +4,7 @@ URxvt*depth:                32
 URxvt*background:            [85]#000000
 URxvt*foreground:            [100]#bbbbbb
 urxvt*background: rgba:0000/0000/0200/c000
-URxvt*borderless: -1
+URxvt*borderless: 1
 URxvt*scrollBar:            false
 URxvt*saveLines:  5000
 URxvt*termName:    rxvt-unicode
