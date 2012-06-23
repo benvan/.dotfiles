@@ -1,4 +1,0 @@
-#!/bin/bash
-
-tail -n 9 machine_log > _ml ; mv -f _ml machine_log
-
