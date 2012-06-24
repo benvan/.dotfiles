@@ -10,6 +10,10 @@ sudo apt-get install thunar
 build rxvt-unicode from source with -enable-everything flag
 http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-9.15.tar.bz2
 
+lxappearance - currently using
+ - Shiki-Illustrious-flat window
+ - Faenza-dark icons
+ - text beside icons
 
 configure gdm to use .xsession
 create <my-session>.desktop in /usr/share/xsessions containing:
