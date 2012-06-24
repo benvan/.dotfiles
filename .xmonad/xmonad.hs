@@ -19,18 +19,34 @@ import XMonad
 import Data.Monoid
 import System.Exit
 
-import XMonad.Layout.NoBorders
+-- hooks
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.ManageHelpers
- 
+import XMonad.Hooks.SetWMName
+
+-- layouts
+import XMonad.Layout.NoBorders
+import XMonad.Layout.ResizableTile
+import XMonad.Layout.Reflect
+import XMonad.Layout.IM
+import XMonad.Layout.Tabbed
+import XMonad.Layout.PerWorkspace (onWorkspace)
+import XMonad.Layout.Grid
+import Control.OldException(catchDyn,try)
+import XMonad.Layout.ComboP
+import XMonad.Layout.Column
+import XMonad.Layout.Named
+import XMonad.Layout.TwoPane
+
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
  
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "urxvt"
+myTerminal      = "rxvt-unicode"
  
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -80,7 +96,7 @@ myModMask       = mod3Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces    = ["1:web","2:code","3","4","5","6","7","8:life","9:sys"]
  
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -219,10 +235,14 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myLayout = avoidStruts(Mirror tiled ||| tiled ||| noBorders Full)
+myLayout = onWorkspace "9:sys" full $ standardLayouts  
   where
+    standardLayouts = avoidStruts(tiled ||| Mirror tiled ||| full ||| Grid)
     -- default tiling algorithm partitions the screen into two panes
+
+    --Layouts
     tiled   = Tall nmaster delta ratio
+    full    = noBorders Full
  
     -- The default number of windows in the master pane
     nmaster = 1
@@ -252,7 +272,9 @@ myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
     , maybeToDefinite (isFullscreen -?> doFullFloat)
-    , title     =? "bash"           --> doF W.focusDown
+    {-, title     =? "bash"           --> doF W.focusDown-} -- was used previously to allow quick feedback on changes to Xdefaults (when editing in vim)
+    , resource  =? "sysConsole"     --> doShift "9:sys"
+    , resource  =? "spotify"        --> doShift "8:life"
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
  
