@@ -1,0 +1,22 @@
+sudo apt-get install chromium-browser
+sudo apt-get install xmonad
+sudo apt-get install xmobar dmenu
+sudo apt-get install xcompmgr 
+sudo apt-get install lxappearance 
+sudo apt-get install conky
+sudo apt-get install thunar
+
+
+build rxvt-unicode from source with -enable-everything flag
+http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-9.15.tar.bz2
+
+
+configure gdm to use .xsession
+create <my-session>.desktop in /usr/share/xsessions containing:
+[Desktop Entry]
+Encoding=UTF-8
+Name=<whatever>
+Comment=xmonad session
+Exec=~/.xsession
+Icon=
+Type=Application

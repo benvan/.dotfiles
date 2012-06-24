@@ -15,3 +15,4 @@ alias mktags='cd $CODEDIR && etags `find $CODEDIR -name "*.[h|c]"` && cd -'
 alias lock='xlock -mode anemone -info "Back in a moment"'
 
 alias o='gnome-open'
+alias setbackground='sudo -u gdm gconftool-2 --set --type string --set /desktop/gnome/background/picture_filename'
