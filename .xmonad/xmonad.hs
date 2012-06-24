@@ -274,7 +274,7 @@ myManageHook = composeAll
     , maybeToDefinite (isFullscreen -?> doFullFloat)
     {-, title     =? "bash"           --> doF W.focusDown-} -- was used previously to allow quick feedback on changes to Xdefaults (when editing in vim)
     , resource  =? "sysConsole"     --> doShift "9:sys"
-    , resource  =? "spotify"        --> doShift "8:life"
+    , className =? "Spotify"        --> doShift "8:life"
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
  
