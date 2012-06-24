@@ -170,6 +170,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- See also the statusBar function from Hooks.DynamicLog.
     --
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
+
+    -- media controls
+    , ((0       , 0x1008ff14 ), spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
+    -- volume control
+    , ((0       , 0x1008ff13 ), spawn "amixer -q set Master 4dB+ && amixer -q set PCM 2dB+")
+    , ((0       , 0x1008ff11 ), spawn "amixer -q set Master 4dB-  && amixer -q set PCM 2dB-")
+    , ((0       , 0x1008ff12 ), spawn "amixer -q set Master toggle")
  
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
@@ -237,7 +244,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 --
 myLayout = onWorkspace "9:sys" full $ standardLayouts  
   where
-    standardLayouts = avoidStruts(tiled ||| Mirror tiled ||| full ||| Grid)
+    standardLayouts = avoidStruts(tiled ||| full )
     -- default tiling algorithm partitions the screen into two panes
 
     --Layouts
@@ -274,7 +281,7 @@ myManageHook = composeAll
     , maybeToDefinite (isFullscreen -?> doFullFloat)
     {-, title     =? "bash"           --> doF W.focusDown-} -- was used previously to allow quick feedback on changes to Xdefaults (when editing in vim)
     , resource  =? "sysConsole"     --> doShift "9:sys"
-    , className =? "Spotify"        --> doShift "8:life"
+    , resource  =? "spotify"        --> doShift "8:life"
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
  
