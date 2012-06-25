@@ -7,12 +7,7 @@ git pull origin master
 
 
 ---- a few dependencies ...
-sudo apt-get install xmonad
-sudo apt-get install xmobar dmenu
-sudo apt-get install xcompmgr 
-sudo apt-get install lxappearance 
-sudo apt-get install conky
-sudo apt-get install thunar
+sudo apt-get install xmonad xmobar dmenu xcompmgr lxappearance conky thunar
 
 
 ---- build rxvt-unicode from source with -enable-everything flag
