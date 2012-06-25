@@ -1,4 +1,12 @@
-sudo apt-get install chromium-browser
+---- first things first - treat home like git dir, repo in .dotfiles:
+mkdir .dotfiles/
+cd .dotfiles/
+git --git-dir=. --work-tree=$HOME init
+git remote add origin https://github.com/benvan/.dotfiles.git
+git pull origin master
+
+
+---- a few dependencies ...
 sudo apt-get install xmonad
 sudo apt-get install xmobar dmenu
 sudo apt-get install xcompmgr 
@@ -7,15 +15,16 @@ sudo apt-get install conky
 sudo apt-get install thunar
 
 
-build rxvt-unicode from source with -enable-everything flag
+---- build rxvt-unicode from source with -enable-everything flag
 http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-9.15.tar.bz2
 
+---- some config
 lxappearance - currently using
  - Shiki-Illustrious-flat window
  - Faenza-dark icons
  - text beside icons
 
-configure gdm to use .xsession
+---- configure gdm to use .xsession
 create <my-session>.desktop in /usr/share/xsessions containing:
 [Desktop Entry]
 Encoding=UTF-8
