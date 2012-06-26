@@ -18,6 +18,7 @@
 import XMonad
 import Data.Monoid
 import System.Exit
+import Control.Monad
 
 -- hooks
 import XMonad.Hooks.DynamicLog
@@ -40,9 +41,41 @@ import XMonad.Layout.Column
 import XMonad.Layout.Named
 import XMonad.Layout.TwoPane
 
+import XMonad.Util.Run (spawnPipe)
+import System.IO (hPutStrLn)
+
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
  
+-- =========== java focus hack, see http://mth.io/posts/xmonad-java-focus/ === --
+
+atom_WM_TAKE_FOCUS ::
+  X Atom
+atom_WM_TAKE_FOCUS =
+  getAtom "WM_TAKE_FOCUS"
+
+takeFocusX ::
+  Window
+  -> X ()
+takeFocusX w =
+  withWindowSet . const $ do
+    dpy       <- asks display
+    wmtakef   <- atom_WM_TAKE_FOCUS
+    wmprot    <- atom_WM_PROTOCOLS
+    protocols <- io $ getWMProtocols dpy w
+    when (wmtakef `elem` protocols) $
+      io . allocaXEvent $ \ev -> do
+          setEventType ev clientMessage
+          setClientMessageEvent ev w wmprot 32 wmtakef currentTime
+          sendEvent dpy w False noEventMask ev
+
+takeTopFocus ::
+  X ()
+takeTopFocus =
+  withWindowSet $ maybe (setFocusX =<< asks theRoot) takeFocusX . W.peek
+
+
+-- =========================================================================== --
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
@@ -96,7 +129,7 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["1:web","2:code","3","4","5","6","7","8:life","9:sys"]
+myWorkspaces    = ["1:web","2:code","3","4","5","6","7:log","8:life","9:sys"]
  
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -172,17 +205,25 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- media controls
+    -- play/pause, mediakey and f5
     , ((0       , 0x1008ff14 ), spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
+    , ((modm    , 0xffc2     ), spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
+
     -- volume control
-    , ((0       , 0x1008ff13 ), spawn "amixer -q set Master 4dB+ && amixer -q set PCM 2dB+")
+      -- mediakeys
     , ((0       , 0x1008ff11 ), spawn "amixer -q set Master 4dB-  && amixer -q set PCM 2dB-")
+    , ((0       , 0x1008ff13 ), spawn "amixer -q set Master 4dB+ && amixer -q set PCM 2dB+")
     , ((0       , 0x1008ff12 ), spawn "amixer -q set Master toggle")
- 
+      -- f6/7/8
+    , ((modm    , 0xffc3     ), spawn "amixer -q set Master 4dB-  && amixer -q set PCM 2dB-")
+    , ((modm    , 0xffc4     ), spawn "amixer -q set Master 4dB+ && amixer -q set PCM 2dB+")
+    , ((modm    , 0xffc5     ), spawn "amixer -q set Master toggle")
+
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
  
     -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
+    , ((modm              , xK_q     ), spawn "xmonad --recompile && xmonad --restart")
     ]
     ++
  
@@ -311,7 +352,6 @@ myEventHook = mempty
 -- It will add EWMH logHook actions to your custom log hook by
 -- combining it with ewmhDesktopsLogHook.
 --
-myLogHook = setWMName "LG3D"
  
 ------------------------------------------------------------------------
 -- Startup hook
@@ -331,18 +371,14 @@ myStartupHook = return ()
  
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
+
+xmo h = xmobarPP { ppOutput = hPutStrLn h }
  
 -- Run xmonad with the settings you specify. No need to modify this.
 --
-main = xmonad =<< xmobar defaults
- 
--- A structure containing your configuration settings, overriding
--- fields in the default config. Any you don't override, will
--- use the defaults defined in xmonad/XMonad/Config.hs
---
--- No need to modify this.
---
-defaults = defaultConfig {
+main = do
+  xmPrimary   <- spawnPipe "~/.scripts/dual_xmobar"
+  xmonad $ defaultConfig {
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
@@ -362,6 +398,8 @@ defaults = defaultConfig {
         layoutHook         = myLayout,
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
-        logHook            = myLogHook,
+        logHook            = do 
+                                takeTopFocus >> setWMName "LG3D"
+                                dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmPrimary },
         startupHook        = myStartupHook
     }

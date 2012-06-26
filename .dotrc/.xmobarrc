@@ -1,7 +1,7 @@
 Config { font = "xft:Sans-7"
        , bgColor = "transparent"
        , fgColor = "grey"
-       , position = Static { xpos = 0, ypos = 0, width = 3840, height = 22 }
+       , position = Static { xpos = 1920, ypos = 0, width = 1920, height = 22 }
        , lowerOnStart = True
        , commands = [ Run StdinReader
                     , Run Com "/home/ben/.scripts/getVolume" [] "myVolume" 10
