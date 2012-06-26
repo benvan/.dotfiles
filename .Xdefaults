@@ -8,7 +8,7 @@ URxvt*borderless: 1
 URxvt*transparent:            false
 URxvt*scrollBar:            false
 URxvt*saveLines:  5000
-URxvt*termName:    rxvt-unicode
+URxvt*termName:    rxvt-256color
 URxvt.perl-ext-common: default,matcher
 URxvt.urlLauncher: chromium-browser
 URxvt.matcher.button: 1
