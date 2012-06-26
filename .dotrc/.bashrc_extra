@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export SCALA_HOME="/opt/scala"
+export PATH="${SCALA_HOME}/bin:${JAVA_HOME}/bin:${PATH}:/home/bene/dev/dev-apps/sqldeveloper/"
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+. ~/.bashrc_ri3k

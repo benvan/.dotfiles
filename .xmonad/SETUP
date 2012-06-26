@@ -10,7 +10,8 @@ git pull origin master
 sudo apt-get install xmonad xmobar dmenu xcompmgr lxappearance conky thunar feh
 
 
----- build rxvt-unicode from source with -enable-everything flag
+---- build rxvt-unicode from source
+---- use flags: --enable-everything --enable-256color
 http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-9.15.tar.bz2
 
 ---- some config

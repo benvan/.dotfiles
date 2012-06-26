@@ -62,7 +62,7 @@ myBorderWidth   = 1
 -- "windows key" is usually mod4Mask.
 --
 numlockMask     = 0
-myModMask       = mod3Mask
+myModMask       = mod4Mask
  
 -- NOTE: from 0.9.1 on numlock mask is set automatically. The numlockMask
 -- setting should be removed from configs.
@@ -112,8 +112,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
     , ((0, xK_Pause), spawn $ XMonad.terminal conf)
     -- launch dmenu
-    , ((modm,               xK_p     ), spawn "dmenu_run -nb '#222229' -nf '#777'")
---"exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
+    , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -nb '#222229' -nf '#777'` && eval \"exec $exe\"")
  
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
@@ -312,7 +311,7 @@ myEventHook = mempty
 -- It will add EWMH logHook actions to your custom log hook by
 -- combining it with ewmhDesktopsLogHook.
 --
-myLogHook = return ()
+myLogHook = setWMName "LG3D"
  
 ------------------------------------------------------------------------
 -- Startup hook

@@ -22,16 +22,12 @@ if [[ -n "$PS1" ]] ; then
         debian_chroot=$(cat /etc/debian_chroot)
     fi
 
+    export PATH=$PATH:/home/bene/.scripts:/home/bene/.bin
+
 # set a fancy prompt (non-color, unless we know we "want" color)
     case "$TERM" in
         xterm-color) color_prompt=yes;;
     esac
-
-
-    export JDK_HOME=/usr/lib/jvm/java-6-openjdk
-    export JREBEL_PATH=/home/ben/Installs/JRebel/jrebel.jar
-    export IDEA_JDK=/usr/lib/jvm/java-6-sun
-    export PATH=$PATH:/opt:/opt/scala-2.9.1.final/bin:~/.scripts:$JDK_HOME/bin:~/Installs
 
 
 # If this is an xterm set the title to user@host:dir
@@ -91,3 +87,5 @@ $ \[\e[m\]"
     #auto-load rails3
     #rvm use 1.9.2@rails3 --default
 fi
+
+. ~/.dotrc/.bashrc_extra

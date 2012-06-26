@@ -9,8 +9,8 @@ xsetroot -cursor_name left_ptr &
 
 #----- startup applications ----- #
 xcompmgr &
-conky -c /home/ben/.conky/conkyrc_HUD &
-feh --bg-center ~/Photos/backgrounds/1255131532204.jpg &
+conky -c $HOME/.conky/conkyrc_HUD &
+feh --bg-center ~/Photos/backgrounds/background.jpg &
 
 #system console - fully transparent, xmonad will move to sys workspace
 urxvt -bg rgba:0000/0000/0000/0000 -name "sysConsole" &
