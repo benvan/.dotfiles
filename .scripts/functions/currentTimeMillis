@@ -1,0 +1,6 @@
+#!/bin/bash
+
+currentTimeMillis(){
+  date +%s%N | cut -b1-13
+}
+
