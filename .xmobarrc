@@ -4,7 +4,7 @@ Config { font = "xft:Sans-7"
        , position = Static { xpos = 0, ypos = 0, width = 1920, height = 22 }
        , lowerOnStart = True
        , commands = [ Run StdinReader
-                    , Run Com "/home/ben/.scripts/getVolume" [] "myVolume" 10
+                    , Run Com "$HOME/.scripts/getVolume" [] "myVolume" 10
                     , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
                     , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10

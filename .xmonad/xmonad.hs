@@ -41,6 +41,8 @@ import XMonad.Layout.Column
 import XMonad.Layout.Named
 import XMonad.Layout.TwoPane
 
+import XMonad.Actions.UpdatePointer
+
 import XMonad.Util.Run (spawnPipe)
 import System.IO (hPutStrLn)
 
@@ -95,7 +97,7 @@ myBorderWidth   = 1
 -- "windows key" is usually mod4Mask.
 --
 numlockMask     = 0
-myModMask       = mod4Mask
+myModMask       = mod3Mask
  
 -- NOTE: from 0.9.1 on numlock mask is set automatically. The numlockMask
 -- setting should be removed from configs.
@@ -235,7 +237,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     --
     [((m .|. modm, k), windows $ f i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
     ++
  
     --
@@ -324,7 +326,15 @@ myManageHook = composeAll
     , resource  =? "sysConsole"     --> doShift "9:sys"
     , resource  =? "spotify"        --> doShift "8:life"
     , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore ]
+    , resource  =? "kdesktop"       --> doIgnore]
+    <+> (fmap not isDialog --> doF avoidMaster)
+
+
+avoidMaster :: W.StackSet i l a s sd -> W.StackSet i l a s sd
+avoidMaster = W.modify' $ \c -> case c of
+     W.Stack t [] (r:rs) ->  W.Stack t [r] rs
+     otherwise           -> c
+
  
 ------------------------------------------------------------------------
 -- Event handling

@@ -1,9 +1,13 @@
 #!/bin/sh
 #!/usr/bin/env bash
 
+LOG=~/.xsession.log
+
+
 #----- settings -----#
 #caps lock used by xmonad as modm
-xmodmap -e 'clear Lock' && xmodmap -e 'add Mod3 = Caps_Lock' &
+xmodmap .xmodmaprc
+
 xrdb -load ~/.Xdefaults &
 xsetroot -cursor_name left_ptr &
 
