@@ -49,11 +49,9 @@ if [[ -n "$PS1" ]] ; then
         alias egrep='egrep --color=auto'
     fi
 
-
     EDITOR=/usr/local/bin/vim
 
     if [ "$DISPLAY" ]; then
-        ptsadd
         xset b off
     fi
 
@@ -69,7 +67,6 @@ export PS1="\[\033[38;5;75m\]\
 \[\033[38;5;75m\]\
 $ \[\e[m\]"
 
-
     if [ -f ~/.bash_aliases ]; then
         . ~/.bash_aliases
     fi
@@ -78,12 +75,12 @@ $ \[\e[m\]"
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
     if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-        . /etc/bash_completion
+        source /etc/bash_completion
     fi
 
     stty -echoctl
 
-    [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+    #[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
     #auto-load rails3
     #rvm use 1.9.2@rails3 --default
 fi
