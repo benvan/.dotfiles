@@ -1,4 +1,5 @@
 remove Lock = Caps_Lock
 remove mod4 = Hyper_L
 keysym Caps_Lock = Hyper_L
+remove mod4 = Hyper_L
 add mod3 = Hyper_L

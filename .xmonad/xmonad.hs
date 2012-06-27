@@ -387,7 +387,8 @@ xmo h = xmobarPP { ppOutput = hPutStrLn h }
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-  xmPrimary   <- spawnPipe "~/.scripts/dual_xmobar"
+  xmPrimary   <- spawnPipe "xmobar"
+  xmSecondary <- spawnPipe "xmobar .dotrc/.xmobarrc"
   xmonad $ defaultConfig {
       -- simple stuff
         terminal           = myTerminal,
@@ -410,6 +411,8 @@ main = do
         handleEventHook    = myEventHook,
         logHook            = do 
                                 takeTopFocus >> setWMName "LG3D"
-                                dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmPrimary },
+                                dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmPrimary }
+                                dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmSecondary }
+                                dynamicLog >> updatePointer (TowardsCentre 0.5 0.5),
         startupHook        = myStartupHook
     }
