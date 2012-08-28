@@ -22,7 +22,6 @@ if [[ -n "$PS1" ]] ; then
         debian_chroot=$(cat /etc/debian_chroot)
     fi
 
-    export PATH=$PATH:/home/bene/.scripts:/home/bene/.bin
 
 # set a fancy prompt (non-color, unless we know we "want" color)
     case "$TERM" in
@@ -52,6 +51,15 @@ if [[ -n "$PS1" ]] ; then
     EDITOR=/usr/local/bin/vim
 
     if [ "$DISPLAY" ]; then
+
+      export PS1="\[\033[38;5;75m\]\
+[\[\033[32m\]\
+\W\[\033[38;5;75m\]]\
+\$(__git_ps1_ \"\[\033[33m\](%s)\")\
+\[\033]0;\W\007\\]\
+\[\033[38;5;75m\]\
+$ \[\e[m\]"
+
         xset b off
     fi
 
@@ -59,13 +67,8 @@ __git_ps1_(){
   [[ $HOME/.dotfiles != $(__gitdir) ]] && __git_ps1 $1
 }
 
-export PS1="\[\033[38;5;75m\]\
-[\[\033[32m\]\
-\W\[\033[38;5;75m\]]\
-\$(__git_ps1_ \"\[\033[33m\](%s)\")\
-\[\033]0;\W\007\\]\
-\[\033[38;5;75m\]\
-$ \[\e[m\]"
+
+    ? (){ [[ $? == 0 ]] && echo -n $1 || echo -n $2; }
 
     if [ -f ~/.bash_aliases ]; then
         . ~/.bash_aliases

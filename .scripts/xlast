@@ -1,6 +1,6 @@
 #!/bin/bash
 into=$1
-downdir=~/Downloads
+downdir=~/downloads
 last=$(ls $downdir -t | head -n1)
 
 if [[ ! -d $into ]]; then

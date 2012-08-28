@@ -26,6 +26,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
+{-import XMonad.Hooks.ICCCMFocus-}
 
 -- layouts
 import XMonad.Layout.NoBorders
@@ -34,21 +35,26 @@ import XMonad.Layout.Reflect
 import XMonad.Layout.IM
 import XMonad.Layout.Tabbed
 import XMonad.Layout.PerWorkspace (onWorkspace)
+import XMonad.Layout.LayoutCombinators hiding ( (|||) )
 import XMonad.Layout.Grid
 import Control.OldException(catchDyn,try)
 import XMonad.Layout.ComboP
 import XMonad.Layout.Column
 import XMonad.Layout.Named
 import XMonad.Layout.TwoPane
+import XMonad.Actions.PhysicalScreens
 
 import XMonad.Actions.UpdatePointer
+import XMonad.Actions.GridSelect
 
+import XMonad.Util.WorkspaceCompare
 import XMonad.Util.Run (spawnPipe)
 import System.IO (hPutStrLn)
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
  
+
 -- =========== java focus hack, see http://mth.io/posts/xmonad-java-focus/ === --
 
 atom_WM_TAKE_FOCUS ::
@@ -76,12 +82,11 @@ takeTopFocus ::
 takeTopFocus =
   withWindowSet $ maybe (setFocusX =<< asks theRoot) takeFocusX . W.peek
 
-
 -- =========================================================================== --
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "urxvt"
+myTerminal      = "terminator"
  
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -151,6 +156,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
  
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
+
+    -- launch grid
+    , ((modm, xK_g                   ), goToSelected defaultGSConfig)
  
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
@@ -205,21 +213,25 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- See also the statusBar function from Hooks.DynamicLog.
     --
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
+    , ((controlMask  .|. mod1Mask, xK_l), spawn "superlock")
 
     -- media controls
     -- play/pause, mediakey and f5
-    , ((0       , 0x1008ff14 ), spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
-    , ((modm    , 0xffc2     ), spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
+    , ((0       , 0x1008ff14 ), spawn "sp_control pp")
+    , ((modm    , 0xffc2     ), spawn "sp_control pp")
 
     -- volume control
       -- mediakeys
-    , ((0       , 0x1008ff11 ), spawn "amixer -q set Master 4dB-  && amixer -q set PCM 2dB-")
-    , ((0       , 0x1008ff13 ), spawn "amixer -q set Master 4dB+ && amixer -q set PCM 2dB+")
-    , ((0       , 0x1008ff12 ), spawn "amixer -q set Master toggle")
+    , ((0       , 0x1008ff11 ), spawn "sp_control vol +4")
+    , ((0       , 0x1008ff13 ), spawn "sp_control vol -4")
+    , ((0       , 0x1008ff12 ), spawn "sp_control vol mute")
       -- f6/7/8
-    , ((modm    , 0xffc3     ), spawn "amixer -q set Master 4dB-  && amixer -q set PCM 2dB-")
-    , ((modm    , 0xffc4     ), spawn "amixer -q set Master 4dB+ && amixer -q set PCM 2dB+")
-    , ((modm    , 0xffc5     ), spawn "amixer -q set Master toggle")
+    , ((modm    , 0xffc3     ), spawn "sp_control vol -4")
+    , ((modm    , 0xffc4     ), spawn "sp_control vol +4")
+    , ((modm    , 0xffc5     ), spawn "sp_control vol mute")
+
+    , ((modm    , 0xffc6     ), spawn "sp_control track prev")
+    , ((modm    , 0xffc7     ), spawn "sp_control track next")
 
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
@@ -242,8 +254,14 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
  
     -- Xinerama switch/move screens 1 and 2
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e] [0..]
+        | (key, sc) <- zip [xK_bracketleft, xK_bracketright] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+
+    ++
+
+    [((modm .|. mask, key), f sc)
+     | (key, sc) <- zip [xK_bracketleft, xK_bracketright] [0..]
+     , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]]
  
  
 ------------------------------------------------------------------------
@@ -282,14 +300,19 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myLayout = onWorkspace "9:sys" full $ standardLayouts  
+myLayout = avoidStruts $
+           onWorkspace "9:sys" (Tall 1 (3/100) (1/2) *|* Full) $ 
+           onWorkspace "7:log" grid $
+           onWorkspace "2:code" (Tall 1 (3/100) (15/24) ||| full) $
+           standardLayouts
   where
-    standardLayouts = avoidStruts(tiled ||| full )
+    standardLayouts = tiled ||| full
     -- default tiling algorithm partitions the screen into two panes
 
     --Layouts
     tiled   = Tall nmaster delta ratio
-    full    = avoidStruts(noBorders Full)
+    full    = noBorders Full
+    grid    = Tall 2 (3/100) (1/2) ||| Full
  
     -- The default number of windows in the master pane
     nmaster = 1
@@ -318,13 +341,15 @@ myLayout = onWorkspace "9:sys" full $ standardLayouts
 myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
-    , maybeToDefinite (isFullscreen -?> doFullFloat)
-    {-, title     =? "bash"           --> doF W.focusDown-} -- was used previously to allow quick feedback on changes to Xdefaults (when editing in vim)
+    {-, maybeToDefinite (isFullscreen -?> doFullFloat)-}
     , resource  =? "sysConsole"     --> doShift "9:sys"
     , resource  =? "spotify"        --> doShift "8:life"
     , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore]
-    <+> (fmap not isDialog --> doF avoidMaster)
+    , resource  =? "kdesktop"       --> doIgnore
+    {-, (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat-}
+    {-, isDialog                      --> \w -> focus w-}
+    , fmap not (resource =? "sun-awt-X11-XDialogPeer") --> doF avoidMaster
+    ]
 
 
 avoidMaster :: W.StackSet i l a s sd -> W.StackSet i l a s sd
@@ -374,7 +399,7 @@ myEventHook = mempty
 -- It will add initialization of EWMH support to your custom startup
 -- hook by combining it with ewmhDesktopsStartup.
 --
-myStartupHook = return ()
+myStartupHook = spawn "/home/bene/.scripts/spotify/status > /home/bene/.scripts/spotify/statusPipe"
  
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -384,8 +409,8 @@ xmo h = xmobarPP { ppOutput = hPutStrLn h }
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-  xmPrimary   <- spawnPipe "xmobar"
-  xmSecondary <- spawnPipe "xmobar .dotrc/.xmobarrc"
+  xmPrimary   <- spawnPipe "xmobar -x 1"
+  xmSecondary <- spawnPipe "xmobar -x 0 .dotrc/.xmobarrc"
   xmonad $ defaultConfig {
       -- simple stuff
         terminal           = myTerminal,
@@ -408,8 +433,8 @@ main = do
         handleEventHook    = myEventHook,
         logHook            = do 
                                 takeTopFocus >> setWMName "LG3D"
-                                dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmPrimary }
+                                dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmPrimary, ppSort    = getSortByXineramaRule }
                                 dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmSecondary }
-                                dynamicLog >> updatePointer (TowardsCentre 0.5 0.5),
+                                dynamicLog >> updatePointer (TowardsCentre 1 1),
         startupHook        = myStartupHook
     }

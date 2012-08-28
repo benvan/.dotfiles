@@ -11,7 +11,6 @@ syntax on
 let g:molokai_original = 0
 colorscheme molokai
 set modelines=0
-
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
@@ -53,7 +52,7 @@ set paste
 set formatoptions=qrn1
 
 set list
-set listchars=tab:▸\ 
+"set listchars=tab:▸\ 
 
 " USE THE GODDAMN HJKL KEYS!
 nnoremap <up> <nop>
@@ -78,14 +77,14 @@ au FocusLost * :wa
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 nnoremap <leader>v V`]
 nnoremap <leader>w <C-w>v<C-w>l
-"nnoremap <leader><space> :noh<cr>
-nnoremap <leader><space> :w<CR> :!pkill -f "urxvt -e bash"<CR> :!./go<CR><CR>
+nnoremap <leader><space> :noh<cr>
 " insert one character
 nnoremap <space> i<Space><Esc>r
 nnoremap <silent><leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " NERD Tree
 map <F2> :NERDTreeToggle<cr>
+map <F3> :NERDTreeFind<cr>
 
 inoremap jj <ESC>
 
