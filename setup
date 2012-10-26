@@ -19,3 +19,5 @@ permission(){
 for f in `ls $DIR | grep -Ev "setup|\.git"`; do
   permission "$HOME/.$f" && ln -sf "$DIR/$f" "$HOME/.$f" 
 done
+
+mkdir "$HOME/.scripts/data"
