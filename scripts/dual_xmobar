@@ -1,0 +1,2 @@
+#!/bin/bash
+cat - | tee >(xmobar) >(xmobar ~/.dotrc/.xmobarrc)

@@ -1,0 +1,20 @@
+#!/bin/bash
+scrdir=/home/bene/.scripts/spotify
+
+if [[ $1 == pp ]]; then ## playpause
+  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+fi
+
+
+if [[ $1 == vol ]]; then ## volume
+  $scrdir/vol $2
+fi
+
+if [[ $1 == track ]]; then ## prev/next
+  action=$(if [[ $2 == prev ]]; then echo Previous; else echo Next; fi)
+  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.$action
+fi
+
+## update status
+$scrdir/status > $scrdir/statusPipe
+

@@ -1,0 +1,5 @@
+#!/bin/bash
+cd /tmp
+
+./home/bene/dev/mule/bin/mule
+

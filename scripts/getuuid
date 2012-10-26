@@ -1,0 +1,8 @@
+#!/bin/bash
+
+curl http://uuid.com/ | egrep -o "\w{8}-\w{4}-\w{4}-\w{4}-\w{12}" | tr -d '\n' | xclip -sel clip
+
+xte 'keyup Alt_L' 'keyup Control_L' 'keyup u'
+xte 'keydown Control_L' 'key v' 'keyup Control_L'
+xte 'keydown Alt_L' 'keydown Control_L'
+

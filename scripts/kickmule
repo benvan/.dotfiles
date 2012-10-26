@@ -1,0 +1,7 @@
+#!/bin/bash
+
+rm ~/dev/mule/apps/esb* -rf
+cd ~/dev-projects/global-platform/trunk/esb
+cp `find -name *.zip` ~/dev/mule/apps
+
+#(cd /tmp; mule)

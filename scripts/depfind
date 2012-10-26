@@ -1,0 +1,19 @@
+#!/bin/bash
+depfile=/tmp/depfile
+case $1 in
+-a)
+    cat $depfile;;
+-c)
+  cat $depfile | grep $2 -B${3:-10} --color;;
+--init)
+  [[ ! -d $2 ]] && echo "$2 not a directory" && exit
+  mvn dependency:tree > $depfile;;
+--help)
+  echo "usage: depfind dependency"
+  echo "       depfind --init directory";;
+--list|-l)
+  cat $depfile | grep INFO.*com.qatarlyst | sed -e s/^[^c]*com.qatarlyst:// -e 's/:\(compile\|test\)//' | sort -u;;
+*)
+  cat $depfile | egrep "\+.*$1|Building" | grep "\+.*$1" -B1 --color #| grep --color Building
+esac
+    

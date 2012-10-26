@@ -1,0 +1,23 @@
+#!/bin/bash
+
+playpause=$([[ `/home/bene/.scripts/spotify/playStatus` =~ Playing ]] && echo -e "\xE2\x96\xB6" || echo -e "\xE2\x96\xA0" )
+
+[[ $(vol ?) == MM ]] && mute=on
+vol=$(($(vol ?)/10))
+
+repeat(){
+  printf "%${1}s\n" "" | sed -e 's/ /'"$2"'/g'
+}
+
+main="-" && fill=" " && remainder=$vol
+if [[ $vol -gt 5 ]]; then
+  main="="
+  fill="-"
+  remainder=$(( vol - 5 ))
+fi
+
+volumeDisplay=[`repeat $remainder $main``repeat $((5-remainder)) "$fill"`]
+[[ $mute ]] && volumeDisplay='[  !  ]'
+
+echo $playpause "$volumeDisplay"
+

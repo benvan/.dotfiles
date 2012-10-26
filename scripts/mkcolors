@@ -1,0 +1,10 @@
+#!/bin/bash
+echo paste colors:
+input=`cat -`
+input=$(echo "$input" | grep Palette)
+
+echo copy below:
+echo 
+
+out=$((echo "$input" | tail -n 16 | sed -n '1~2p'; echo "$input" | tail -n 16 | sed -n '0~2p') | sed "s/.*=//" | tr "\\n" ":")
+echo "${out%?}"
