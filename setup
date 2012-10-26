@@ -1,0 +1,21 @@
+#!/bin/bash
+DIR="$( cd "$( dirname "$0" )" && pwd )"
+
+permission(){
+  if [[ -e $1 ]]; then
+    echo -n "$1 already exits. Replace? [y/n] "
+    read -s -n 1 key
+    if [[ "$key" == "y" ]]; then
+      echo OK
+      return 0
+    else
+      echo skipping
+      return 1
+    fi
+  fi
+  return 0
+}
+
+for f in `ls $DIR | grep -Ev "setup|\.git"`; do
+  permission "$HOME/.$f" && ln -sf "$DIR/$f" "$HOME/.$f" 
+done
