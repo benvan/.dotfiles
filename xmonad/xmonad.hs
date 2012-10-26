@@ -94,7 +94,7 @@ myFocusFollowsMouse = True
  
 -- Width of the window border in pixels.
 --
-myBorderWidth   = 1
+myBorderWidth   = 2
  
 -- modMask lets you specify which modkey you want to use. The default
 -- is mod1Mask ("left alt").  You may also consider using mod3Mask
@@ -141,7 +141,7 @@ myWorkspaces    = ["1:web","2:code","3","4","5","6","7:log","8:life","9:sys"]
 -- Border colors for unfocused and focused windows, respectively.
 --
 myNormalBorderColor  = "#222222"
-myFocusedBorderColor = "#888888"
+myFocusedBorderColor = "#cc6677"
  
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -233,6 +233,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm    , 0xffc6     ), spawn "sp_control track prev")
     , ((modm    , 0xffc7     ), spawn "sp_control track next")
 
+    , ((0,xK_Print), spawn "sleep 0.2; scrot -s")
+
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
  
@@ -279,8 +281,6 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
     -- mod-button3, Set the window to floating mode and resize by dragging
     , ((modm, button3), (\w -> focus w >> mouseResizeWindow w
                                        >> windows W.shiftMaster))
- 
-    -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
  
 ------------------------------------------------------------------------
