@@ -59,6 +59,7 @@ compctl -K _propdep_completion propdep
 
 gp=/home/bene/dev-projects/global-platform/trunk
 alias -g "??"='$(`history | tail -n1 | cut -c8-`)'
+alias gitd='git svn dcommit'
 alias gp='cd $gp'
 alias ls='ls -l --color'
 alias la='ls -A'
