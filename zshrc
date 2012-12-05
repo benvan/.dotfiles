@@ -7,6 +7,20 @@
 autoload -U colors
 colors
 
+setopt PROMPT_SUBST
+
+fpath=(~/.zsh/functions $fpath)
+autoload -U ~/.zsh/functions/*(:t)
+
+typeset -ga preexec_functions
+typeset -ga precmd_functions
+typeset -ga chpwd_functions
+
+# Append git functions needed for prompt.
+preexec_functions+='preexec_update_git_vars'
+precmd_functions+='precmd_update_git_vars'
+chpwd_functions+='chpwd_update_git_vars'
+
 setopt histignorealldups sharehistory
 setopt noautomenu
 setopt extendedglob
@@ -83,3 +97,5 @@ files(){ #alias
   done < <(for i in $@; do echo $i; done)
 }
 PS1="%F{blue}[%F{green}%c%F{blue}]$ %f"
+PROMPT=$'%F{blue}[%F{green}%c%F{blue}]$(prompt_git_info)%{${fg[default]}%} '
+

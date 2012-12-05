@@ -69,7 +69,7 @@ inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
-nnoremap ; :
+"nnoremap ; :
 
 au FocusLost * :wa
 
