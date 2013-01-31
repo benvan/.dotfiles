@@ -3,7 +3,15 @@ call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 filetype plugin indent on
 
-let g:tex_flavor='latex'
+"let g:tex_flavor='latex'
+
+"command W w !sudo tee % > /dev/null
+
+" Window movements
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 set nocompatible
 set t_Co=256
@@ -55,14 +63,14 @@ set list
 "set listchars=tab:▸\ 
 
 " USE THE GODDAMN HJKL KEYS!
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
+"nnoremap <up> <nop>
+"nnoremap <down> <nop>
+"nnoremap <left> <nop>
+"nnoremap <right> <nop>
+"inoremap <up> <nop>
+"inoremap <down> <nop>
+"inoremap <left> <nop>
+"inoremap <right> <nop>
 
 " turn off help key
 inoremap <F1> <ESC>
@@ -88,11 +96,10 @@ map <F3> :NERDTreeFind<cr>
 
 inoremap jj <ESC>
 
-" Window movements
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+
+nnoremap gb :bn<cr>
+nnoremap gB :bp<cr>
+
 
 " VIM FOR RAILS STUFF ...
 " Add recently accessed projects menu (project plugin)
@@ -113,7 +120,7 @@ let g:rails_default_file='config/database.yml'
 set cf
 set clipboard+=unnamed
 set autowrite
-set timeoutlen=250
+set timeoutlen=1000
 
 set cinoptions=:0,p0,t0
 set cinwords=if,else,while,do,for,switch,case
