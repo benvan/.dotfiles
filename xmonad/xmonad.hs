@@ -154,6 +154,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch dmenu
     , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -nb '#222229' -nf '#777'` && eval \"exec $exe\"")
  
+    , ( (0, xK_Caps_Lock), spawn "fix_caps_lock" )
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
 
