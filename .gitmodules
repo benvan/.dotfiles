@@ -1,0 +1,6 @@
+[submodule "vim-surround"]
+	path = vim/bundle/vim-surround
+	url = http://github.com/tpope/vim-surround.git
+[submodule "oh-my-zsh"]
+	path = oh-my-zsh
+	url = https://github.com/benvan/oh-my-zsh.git
