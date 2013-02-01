@@ -1,0 +1,12 @@
+[user]
+	name = Ben van Enckevort
+	email = benvan@gmail.com
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+[core]
+	autocrlf = input
+[alias]
+  lg = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%an%d%Creset %s %Cgreen(%cr)%Creset' --date=relative
+  lsu = ls-files --exclude-standard --others
