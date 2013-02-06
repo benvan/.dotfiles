@@ -5,7 +5,11 @@ filetype plugin indent on
 
 "let g:tex_flavor='latex'
 
-"command W w !sudo tee % > /dev/null
+autocmd! bufwritepost .vimrc source %
+
+command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+command! Wq :execute ':W' | :q
+command! WQ :Wq
 
 " Window movements
 nnoremap <C-h> <C-w>h

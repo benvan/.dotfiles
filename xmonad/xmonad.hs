@@ -26,7 +26,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
-{-import XMonad.Hooks.ICCCMFocus-}
+import XMonad.Hooks.ICCCMFocus
 
 -- layouts
 import XMonad.Layout.NoBorders
@@ -57,30 +57,30 @@ import qualified Data.Map        as M
 
 -- =========== java focus hack, see http://mth.io/posts/xmonad-java-focus/ === --
 
-atom_WM_TAKE_FOCUS ::
-  X Atom
-atom_WM_TAKE_FOCUS =
-  getAtom "WM_TAKE_FOCUS"
+{-atom_WM_TAKE_FOCUS ::-}
+  {-X Atom-}
+{-atom_WM_TAKE_FOCUS =-}
+  {-getAtom "WM_TAKE_FOCUS"-}
 
-takeFocusX ::
-  Window
-  -> X ()
-takeFocusX w =
-  withWindowSet . const $ do
-    dpy       <- asks display
-    wmtakef   <- atom_WM_TAKE_FOCUS
-    wmprot    <- atom_WM_PROTOCOLS
-    protocols <- io $ getWMProtocols dpy w
-    when (wmtakef `elem` protocols) $
-      io . allocaXEvent $ \ev -> do
-          setEventType ev clientMessage
-          setClientMessageEvent ev w wmprot 32 wmtakef currentTime
-          sendEvent dpy w False noEventMask ev
+{-takeFocusX ::-}
+  {-Window-}
+  {--> X ()-}
+{-takeFocusX w =-}
+  {-withWindowSet . const $ do-}
+    {-dpy       <- asks display-}
+    {-wmtakef   <- atom_WM_TAKE_FOCUS-}
+    {-wmprot    <- atom_WM_PROTOCOLS-}
+    {-protocols <- io $ getWMProtocols dpy w-}
+    {-when (wmtakef `elem` protocols) $-}
+      {-io . allocaXEvent $ \ev -> do-}
+          {-setEventType ev clientMessage-}
+          {-setClientMessageEvent ev w wmprot 32 wmtakef currentTime-}
+          {-sendEvent dpy w False noEventMask ev-}
 
-takeTopFocus ::
-  X ()
-takeTopFocus =
-  withWindowSet $ maybe (setFocusX =<< asks theRoot) takeFocusX . W.peek
+{-takeTopFocus ::-}
+  {-X ()-}
+{-takeTopFocus =-}
+  {-withWindowSet $ maybe (setFocusX =<< asks theRoot) takeFocusX . W.peek-}
 
 -- =========================================================================== --
 -- The preferred terminal program, which is used in a binding below and by
@@ -154,6 +154,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch dmenu
     , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -nb '#222229' -nf '#777'` && eval \"exec $exe\"")
  
+    , ( (0, xK_Caps_Lock), spawn "fix_caps_lock" )
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
 
@@ -399,8 +400,10 @@ myEventHook = mempty
 -- It will add initialization of EWMH support to your custom startup
 -- hook by combining it with ewmhDesktopsStartup.
 --
-myStartupHook = spawn "/home/bene/.scripts/spotify/status > /home/bene/.scripts/spotify/statusPipe"
- 
+myStartupHook = do
+                  spawn "/home/bene/.scripts/spotify/status > /home/bene/.scripts/spotify/statusPipe"
+                  setWMName "LG3D"
+
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
 
@@ -432,7 +435,7 @@ main = do
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
         logHook            = do 
-                                takeTopFocus >> setWMName "LG3D"
+                                takeTopFocus
                                 dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmPrimary, ppSort    = getSortByXineramaRule }
                                 dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmSecondary }
                                 dynamicLog >> updatePointer (TowardsCentre 1 1),

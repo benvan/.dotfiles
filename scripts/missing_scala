@@ -1,0 +1,79 @@
+#!/bin/bash
+run(){
+
+  #find all src/(test|main)/scala
+  #find all project roots
+  #for each project root
+  #is it a scala proj? check for src/?/scala
+  #if so
+    #does it have a scala facet?
+    #if so
+      #does it have both roots?
+
+  missing_main=/tmp/missing_scala_main
+  missing_test=/tmp/missing_scala_test
+  missing_facet=/tmp/missing_scala_facet
+  : > $missing_main
+  : > $missing_test
+  : > $missing_facet
+  scala_roots=$( find . -type d -name scala | grep -E "src/(main|test)/scala" )
+  project_roots=$( echo "$scala_roots" | sed -e 's/\/src\/.*//' -e 's/$/\//' | sort -u )
+
+  for root in $project_roots; do
+    while read iml; do
+      #is this a scala project?
+      if [[ -d $root/src/main/scala ]] || [[ -d $root/src/test/scala ]]; then
+        #does it have a scala facet?
+        if grep 'name="Scala"' $iml > /dev/null ; then
+          #does it have both main and test roots?
+          grep "src/main/scala" $iml > /dev/null || ([[ -d $root/src/main/scala ]] && echo -e "$iml\t(main)" >> $missing_main)
+          grep "src/test/scala" $iml > /dev/null || ([[ -d $root/src/test/scala ]] && echo -e "$iml\t(test)" >> $missing_test)
+        else
+          echo $root >> $missing_facet
+        fi
+      fi
+    done < <( find $root -name "*.iml" )
+  done
+
+  if [[ -s $missing_facet ]]; then
+    echo "----------------------------"
+    echo "-- Warning: the following modules are missing the scala facet - I can't fix this. You'll need to reimport them"
+    echo "-- "
+    cat "$missing_facet" | sed "s/^/-- /"
+    echo "----------------------------"
+  fi 
+
+  problems=$( cat $missing_main $missing_test | sort -u )
+
+  if [[ $problems ]]; then
+    echo The following projects have a scala facet but have lost their source roots:
+    echo "$problems" | sed s/^/\\t/
+
+    echo want me to try to fix this for you? [y/n]
+    read -s -n 1 key
+    if [[ "$key" == "" ]] || [[ "$key" == "y" ]] || [[ "$key" == "Y" ]]; then
+      while read badConfig; do
+        iml=$( echo "$badConfig" | cut -f1 )
+        contentLine=`grep "content url" $iml -n | grep -oE "^[0-9]+"`
+        fix_type=$( echo "$badConfig" | cut -f2 | sed "s/[()]//g" )
+        fix_line=$(( contentLine + 1 ))
+        isTest=$( (echo $fix_type | grep test > /dev/null ) && echo true || echo false   )
+        sed -i "${fix_line}i<sourceFolder url=\"file://\$MODULE_DIR\$/src/${fix_type}/scala\" isTestSource=\"${isTest}\" />" $iml
+      done < <( echo "$problems" )
+      echo ok .. gonna give this another whirl
+      run
+    else
+      echo "I see. Well I'll still be here if you need me"
+    fi
+  else
+    echo looks fine to me... get coding!
+  fi
+
+}
+
+if [ ! -f pom.xml ]; then
+  echo "this doesn't look like your project root directory - please run from global-platform trunk"
+else
+  run
+fi
+
