@@ -16,10 +16,10 @@ permission(){
   return 0
 }
 
-for f in `ls $DIR | grep -Ev "setup|\.git\.dotrc"`; do
+for f in `ls $DIR | grep -Ev "setup|\.git|\.dotrc"`; do
   permission "$HOME/.$f" && ln -sf "$DIR/$f" "$HOME/.$f" 
 done
 
 permission "$HOME/.$f" && ln -sf "dotrc/location" "$HOME/.dotrc"
 
-mkdir "$HOME/.scripts/data"
+mkdir -p "$HOME/.scripts/data"
