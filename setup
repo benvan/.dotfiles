@@ -20,6 +20,6 @@ for f in `ls $DIR | grep -Ev "setup|\.git|\.dotrc"`; do
   permission "$HOME/.$f" && ln -sf "$DIR/$f" "$HOME/.$f" 
 done
 
-permission "$HOME/.$f" && ln -sf "dotrc/location" "$HOME/.dotrc"
+permission "$HOME/.dotrc" && ln -sf "dotrc/location" "$HOME/.dotrc"
 
 mkdir -p "$HOME/.scripts/data"
