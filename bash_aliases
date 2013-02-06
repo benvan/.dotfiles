@@ -28,7 +28,6 @@ alias gp='cd /home/bene/dev-projects/global-platform/trunk'
 alias qmvn='mvn -o -Dmaven.test.skip -P\!checkers'
 alias mvno='mvn -o'
 alias listall='compgen -c | sort -u'
-alias sudo='sudo -E'
 
 alias rescreen='xscreensaver -no-splash -verbose -log ~/.scripts/daemons/xsreenlog &'
 alias server='python -m SimpleHTTPServer'
