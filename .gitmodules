@@ -4,3 +4,6 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = https://github.com/benvan/oh-my-zsh.git
+[submodule "z-zsh"]
+	path = z-zsh
+	url = https://github.com/sjl/z-zsh
