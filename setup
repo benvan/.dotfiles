@@ -2,21 +2,25 @@
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 permission-link(){
-  permission "$1" && mv "$1" "$1.bak" && ln -snf "$2" "$1"
+  permission "$1" && ln -snf "$2" "$1"
 }
 permission(){
-  if [[ -e "$1" && ! -L "$1" ]]; then
-    echo -n "$1 already exits. Replace? [y/n] "
-    read -s -n 1 key
-    if [[ "$key" == "y" ]]; then
-      echo OK
-      return 0
-    else
-      echo skipping
-      return 1
+  if [[ -e "$1" ]]; then
+    if [[ ! -L "$1" ]]; then
+      echo -n "$1 already exits. Replace? [y/n] "
+      read -s -n 1 key
+      if [[ "$key" == "y" ]]; then
+        echo OK
+        mv "$1" "$1.bak"
+        return 0
+      else
+        echo skipping
+        return 1
+      fi
     fi
+    return 0
   fi
-  return 1
+  return 0
 }
 
 for f in `ls "$DIR" | grep -Ev "setup|config"`; do
@@ -24,6 +28,7 @@ for f in `ls "$DIR" | grep -Ev "setup|config"`; do
 done
 
 for f in `ls "$DIR/config"`; do
+  echo $f
   permission-link "$HOME/.config/$f" "$DIR/config/$f"
 done
 
