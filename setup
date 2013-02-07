@@ -1,8 +1,11 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 
+permission-link(){
+  permission "$1" && mv "$1" "$1.bak" && ln -snf "$2" "$1"
+}
 permission(){
-  if [[ -e $1 ]]; then
+  if [[ -e "$1" && ! -L "$1" ]]; then
     echo -n "$1 already exits. Replace? [y/n] "
     read -s -n 1 key
     if [[ "$key" == "y" ]]; then
@@ -13,13 +16,19 @@ permission(){
       return 1
     fi
   fi
-  return 0
+  return 1
 }
 
-for f in `ls $DIR | grep -Ev "setup|\.git|\.dotrc"`; do
-  permission "$HOME/.$f" && ln -sf "$DIR/$f" "$HOME/.$f" 
+for f in `ls "$DIR" | grep -Ev "setup|config"`; do
+  permission-link "$HOME/.$f" "$DIR/$f"
 done
 
-permission "$HOME/.$f" && ln -sf "dotrc/location" "$HOME/.dotrc"
+for f in `ls "$DIR/config"`; do
+  permission-link "$HOME/.config/$f" "$DIR/config/$f"
+done
+
+if [[ ! -L "$DIR/dotrc/location" ]]; then
+  echo Go symlink your location in dotrc directory
+fi
 
 mkdir -p "$HOME/.scripts/data"
