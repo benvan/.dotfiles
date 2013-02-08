@@ -63,4 +63,4 @@ alias grep='grep --color'
 
 
 
-source $HOME/Installs/z/z.sh
+source $HOME/.dotfiles/z-zsh/z.sh
