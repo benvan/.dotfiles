@@ -28,7 +28,6 @@ for f in `ls "$DIR" | grep -Ev "setup|config"`; do
 done
 
 for f in `ls "$DIR/config"`; do
-  echo $f
   permission-link "$HOME/.config/$f" "$DIR/config/$f"
 done
 
@@ -37,3 +36,6 @@ if [[ ! -L "$DIR/dotrc/location" ]]; then
 fi
 
 mkdir -p "$HOME/.scripts/data"
+
+git submodule init
+git submodule update
