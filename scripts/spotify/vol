@@ -1,13 +1,13 @@
 #!/bin/bash
-
+CARD="-c 2"
 if [[ $1 == mute ]]; then
- amixer -q set Master toggle
+ amixer -q $CARD set Master toggle
 elif [[ $1 == ? ]]; then
- amixer get Master | awk -F'[]%[]' '/%/ {if ($7 == "off") { print "MM" } else { print $2 }}' | head -n 1 
+ amixer get $CARD Master | awk -F'[]%[]' '/%/ {if ($7 == "off") { print "MM" } else { print $2 }}' | head -n 1 
 else
   pol=${1%%[0-9]*}
   val=${1##[+-]}
 
-  amixer -q set Master "$val"dB"$pol"
+  amixer -q $CARD set Master "$val"dB"$pol"
 fi
 

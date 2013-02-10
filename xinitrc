@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source ~/.dotfiles/pathrc
+source ~/.dotfiles/pather
 
 LOG=~/.xsession.log
 
@@ -16,7 +16,5 @@ xsetroot -cursor_name left_ptr &
 xcompmgr &
 conky -c $HOME/.conky/conkyrc_HUD &
 feh --bg-center ~/.dotfiles/local/background_image &
-
-
 
 exec xmonad 

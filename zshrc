@@ -40,7 +40,8 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
-source $HOME/.dotfiles/pathrc
+# invoke $PATH setup
+source $HOME/.dotfiles/pather
 
 GP=/home/bene/dev-projects/global-platform/trunk
 alias -g "??"='$(`history | tail -n1 | cut -c8-`)'

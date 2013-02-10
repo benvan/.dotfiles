@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# simple tool to allow additions to $PATH via shell function path
+# since I have multiple environments, this will source both local and global configs
+
+# n.b. (I don't know why I'm writing this - nobody will ever read it) the reason this
+# is extracted like this is so that I can recreate my PATH without having to invoke zshrc
+# or bashrc - the advantage being that I can run my window manager with the same path
+# as my shell
+
+path(){
+  echo $* | grep -- --pre > /dev/null
+  if [ $? ]; then
+    export PATH=$1:$PATH
+  else
+    export PATH=$PATH:$1
+  fi
+}
+
+if [ ! $PATH_INITIALISED ]; then
+
+
+  source $HOME/.dotfiles/pathrc
+
+  pathrc_extra=$HOME/.dotfiles/local/pathrc_extra
+  if [ -e $pathrc_extra ]; then
+    source $pathrc_extra
+  fi
+
+  PATH_INITIALISED=1
+  export PATH_INITIALISED
+
+fi

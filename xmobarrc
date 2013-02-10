@@ -1,5 +1,8 @@
-Config { font = "xft:Bitstream Vera Sans Mono:size=7.5:antialias=true"
-       , bgColor = "transparent"
+Config { 
+         font = "xft:Deja Vu Sans Mono:pixelsize=10"
+       , bgColor = "none"
+       , borderColor = "#333"
+       , border = BottomB
        , fgColor = "grey"
        , position = Top
        , lowerOnStart = True

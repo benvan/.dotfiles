@@ -1,18 +1,6 @@
 #!/bin/bash
 
-path(){
-  if [[ $* == *--pre* ]]; then
-    export PATH=$1:$PATH
-  else
-    export PATH=$PATH:$1
-  fi
-}
-
+path $HOME/.cabal/bin --pre
 path $HOME/.scripts
 path $HOME/.scripts/spotify
-
-pathrc_extra=$HOME/.dotfiles/local/pathrc_extra
-if [[ -e $pathrc_extra ]]; then
-  source $pathrc_extra
-fi
 
