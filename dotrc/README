@@ -1,1 +1,1 @@
-a place for all machine-specific configuration. referenced from normal dotfiles
+a place for all machine-specific configuration. referenced via symlink "local" in .dotfiles

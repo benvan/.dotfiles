@@ -4,7 +4,7 @@ Config { font = "xft:Bitstream Vera Sans Mono:size=7.5:antialias=true"
        , position = Top
        , lowerOnStart = True
        , commands = [ Run StdinReader
-                    , Run PipeReader "/home/bene/.scripts/spotify/statusPipe" "vol"
+                    , Run PipeReader ".scripts/spotify/statusPipe" "vol"
                     , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
                     , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10

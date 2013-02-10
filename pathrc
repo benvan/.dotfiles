@@ -1,0 +1,15 @@
+#!/bin/bash
+
+path(){
+  if [[ $* == *--pre* ]]; then
+    export PATH=$1:$PATH
+  else
+    export PATH=$PATH:$1
+  fi
+}
+
+path $HOME/.scripts
+path $HOME/.scripts/spotify
+
+source $HOME/.dotfiles/local/pathrc_extra
+

@@ -218,21 +218,21 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- media controls
     -- play/pause, mediakey and f5
-    , ((0       , 0x1008ff14 ), spawn "sp_control pp")
-    , ((modm    , 0xffc2     ), spawn "sp_control pp")
+    , ((0       , 0x1008ff14 ), spawn ".scripts/sp_control pp")
+    , ((modm    , 0xffc2     ), spawn ".scripts/sp_control pp")
 
     -- volume control
       -- mediakeys
-    , ((0       , 0x1008ff11 ), spawn "sp_control vol +4")
-    , ((0       , 0x1008ff13 ), spawn "sp_control vol -4")
-    , ((0       , 0x1008ff12 ), spawn "sp_control vol mute")
+    , ((0       , 0x1008ff11 ), spawn ".scripts/sp_control vol +4")
+    , ((0       , 0x1008ff13 ), spawn ".scripts/sp_control vol -4")
+    , ((0       , 0x1008ff12 ), spawn ".scripts/sp_control vol mute")
       -- f6/7/8
-    , ((modm    , 0xffc3     ), spawn "sp_control vol -4")
-    , ((modm    , 0xffc4     ), spawn "sp_control vol +4")
-    , ((modm    , 0xffc5     ), spawn "sp_control vol mute")
+    , ((modm    , 0xffc3     ), spawn ".scripts/sp_control vol -4")
+    , ((modm    , 0xffc4     ), spawn ".scripts/sp_control vol +4")
+    , ((modm    , 0xffc5     ), spawn ".scripts/sp_control vol mute")
 
-    , ((modm    , 0xffc6     ), spawn "sp_control track prev")
-    , ((modm    , 0xffc7     ), spawn "sp_control track next")
+    , ((modm    , 0xffc6     ), spawn ".scripts/sp_control track prev")
+    , ((modm    , 0xffc7     ), spawn ".scripts/sp_control track next")
 
     , ((0,xK_Print), spawn "sleep 0.2; scrot -s")
 
@@ -401,7 +401,7 @@ myEventHook = mempty
 -- hook by combining it with ewmhDesktopsStartup.
 --
 myStartupHook = do
-                  spawn "/home/bene/.scripts/spotify/status > /home/bene/.scripts/spotify/statusPipe"
+                  spawn "$HOME/.scripts/spotify/status > $HOME/.scripts/spotify/statusPipe"
                   setWMName "LG3D"
 
 ------------------------------------------------------------------------
@@ -413,7 +413,8 @@ xmo h = xmobarPP { ppOutput = hPutStrLn h }
 --
 main = do
   xmPrimary   <- spawnPipe "xmobar -x 1"
-  xmSecondary <- spawnPipe "xmobar -x 0 .dotfiles/dotrc/location/xmobarrc"
+  xmSecondary <- spawnPipe ";"
+  {-xmSecondary <- spawnPipe "xmobar -x 0 .dotfiles/local/xmobarrc"-}
   xmonad $ defaultConfig {
       -- simple stuff
         terminal           = myTerminal,

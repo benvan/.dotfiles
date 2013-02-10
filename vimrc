@@ -31,6 +31,7 @@ set expandtab
 set encoding=utf-8
 set scrolloff=3
 set autoindent
+set smartindent
 set showmode
 set showcmd
 set hidden
@@ -63,7 +64,7 @@ set paste
 "set textwidth=79
 set formatoptions=qrn1
 
-set list
+"set list
 "set listchars=tab:▸\ 
 
 " USE THE GODDAMN HJKL KEYS!
