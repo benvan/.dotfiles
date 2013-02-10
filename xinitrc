@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source ~/.dotfiles/pathrc &
+source ~/.dotfiles/pathrc
 
 LOG=~/.xsession.log
 

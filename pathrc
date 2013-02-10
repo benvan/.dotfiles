@@ -11,5 +11,8 @@ path(){
 path $HOME/.scripts
 path $HOME/.scripts/spotify
 
-source $HOME/.dotfiles/local/pathrc_extra
+pathrc_extra=$HOME/.dotfiles/local/pathrc_extra
+if [[ -e $pathrc_extra ]]; then
+  source $pathrc_extra
+fi
 
