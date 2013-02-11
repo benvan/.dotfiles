@@ -28,7 +28,6 @@ for f in `ls "$DIR" | grep -Ev "setup|config"`; do
 done
 
 for f in `ls "$DIR/config"`; do
-  echo $f
   permission-link "$HOME/.config/$f" "$DIR/config/$f"
 done
 

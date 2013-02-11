@@ -94,4 +94,4 @@ __git_ps1_(){
     #rvm use 1.9.2@rails3 --default
 fi
 
-. ~/.dotrc/.bashrc_extra
+. ~/.dotfiles/dotrc/location/bashrc_extra

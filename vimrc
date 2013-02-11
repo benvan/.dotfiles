@@ -63,7 +63,7 @@ set paste
 "set textwidth=79
 set formatoptions=qrn1
 
-set list
+"set list
 "set listchars=tab:▸\ 
 
 " USE THE GODDAMN HJKL KEYS!
