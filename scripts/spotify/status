@@ -1,6 +1,6 @@
 #!/bin/bash
 
-playpause=$([[ `/home/bene/.scripts/spotify/playStatus` =~ Playing ]] && echo -e "\xE2\x96\xB6" || echo -e "\xE2\x96\xA0" )
+playpause=$([[ `$HOME/.scripts/spotify/playStatus` =~ Playing ]] && echo -e "\xE2\x96\xB6" || echo -e "\xE2\x96\xA0" )
 
 [[ $(vol ?) == MM ]] && mute=on
 vol=$(($(vol ?)/10))

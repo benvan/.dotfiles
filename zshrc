@@ -40,6 +40,9 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
+# invoke $PATH setup
+source $HOME/.dotfiles/pather
+
 GP=/home/bene/dev-projects/global-platform/trunk
 alias -g "??"='$(`history | tail -n1 | cut -c8-`)'
 alias gitd='git svn dcommit'
@@ -61,6 +64,7 @@ alias sudo='sudo -E'
 alias server='python -m SimpleHTTPServer'
 alias grep='grep --color'
 
-
+export _JAVA_AWT_WM_NONREPARENTING=1
 
 source $HOME/.dotfiles/z-zsh/z.sh
+

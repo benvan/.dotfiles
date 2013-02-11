@@ -31,8 +31,11 @@ for f in `ls "$DIR/config"`; do
   permission-link "$HOME/.config/$f" "$DIR/config/$f"
 done
 
-if [[ ! -L "$DIR/dotrc/location" ]]; then
-  echo Go symlink your location in dotrc directory
+if [[ ! -L "$DIR/local" ]]; then
+  echo you need to symlink your local config 
 fi
 
 mkdir -p "$HOME/.scripts/data"
+
+git submodule init
+git submodule update

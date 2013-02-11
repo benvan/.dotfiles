@@ -1,4 +1,0 @@
-
-xmonad.hs:39:0:
-    Warning: Module `Control.OldException' is deprecated:
-               Future versions of base will not support the old exceptions style. Please switch to extensible exceptions.
