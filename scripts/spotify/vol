@@ -1,5 +1,5 @@
 #!/bin/bash
-CARD="-c 2"
+CARD="-c 3"
 if [[ $1 == mute ]]; then
  amixer -q $CARD set Master toggle
 elif [[ $1 == ? ]]; then

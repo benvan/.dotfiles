@@ -196,9 +196,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
  
     -- Shrink the master area
     , ((modm,               xK_h     ), sendMessage Shrink)
+    , ((modm .|. shiftMask, xK_h     ), sendMessage MirrorShrink)
  
     -- Expand the master area
     , ((modm,               xK_l     ), sendMessage Expand)
+    , ((modm .|. shiftMask, xK_l     ), sendMessage MirrorExpand)
  
     -- Push window back into tiling
     , ((modm,               xK_t     ), withFocused $ windows . W.sink)
@@ -304,14 +306,14 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 myLayout = avoidStruts $
            onWorkspace "9:sys" (Tall 1 (3/100) (1/2) *|* Full) $ 
            onWorkspace "7:log" grid $
-           onWorkspace "2:code" (Tall 1 (3/100) (15/24) ||| full) $
+           onWorkspace "2:code" (ResizableTall 1 (3/100) (15/24) [] ||| full) $
            standardLayouts
   where
     standardLayouts = tiled ||| full
     -- default tiling algorithm partitions the screen into two panes
 
     --Layouts
-    tiled   = Tall nmaster delta ratio
+    tiled   = ResizableTall nmaster delta ratio []
     full    = noBorders Full
     grid    = Tall 2 (3/100) (1/2) ||| Full
  
