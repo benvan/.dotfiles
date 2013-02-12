@@ -10,7 +10,10 @@ setopt interactivecomments
 setopt rcquotes
 setopt nohup
 
-plugins=(git mvn cp files xlast)
+# don't cache commands!
+zstyle ":completion:*:commands" rehash 1
+
+plugins=(git mvn cp files xlast npm)
 
 source $ZSH/oh-my-zsh.sh
 
