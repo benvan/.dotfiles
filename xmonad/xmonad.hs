@@ -225,8 +225,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- volume control
       -- mediakeys
-    , ((0       , 0x1008ff11 ), spawn ".scripts/sp_control vol +4")
-    , ((0       , 0x1008ff13 ), spawn ".scripts/sp_control vol -4")
+    , ((0       , 0x1008ff11 ), spawn ".scripts/sp_control vol -4")
+    , ((0       , 0x1008ff13 ), spawn ".scripts/sp_control vol +4")
     , ((0       , 0x1008ff12 ), spawn ".scripts/sp_control vol mute")
       -- f6/7/8
     , ((modm    , 0xffc3     ), spawn ".scripts/sp_control vol -4")
