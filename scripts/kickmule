@@ -2,6 +2,9 @@
 
 rm ~/dev/mule/apps/esb* -rf
 cd ~/dev-projects/global-platform/trunk/esb
-cp `find -name *.zip` ~/dev/mule/apps
+for file in `find -name *.zip`; do
+  target=$(basename $file)
+  cp $file ~/dev/mule/apps/${target%-[0-9]*}.zip
+done
 
 #(cd /tmp; mule)
