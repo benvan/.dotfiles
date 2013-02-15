@@ -1,7 +1,4 @@
 #!/bin/bash
-
-echo opts: $SND_CARD_OPTS >> $HOME/opts
-
 if [[ $1 == mute ]]; then
  amixer -q $SND_CARD_OPTS set Master toggle
 elif [[ $1 == ? ]]; then
