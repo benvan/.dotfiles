@@ -415,8 +415,7 @@ xmo h = xmobarPP { ppOutput = hPutStrLn h }
 --
 main = do
   xmPrimary   <- spawnPipe "xmobar -x 1"
-  xmSecondary <- spawnPipe ";"
-  {-xmSecondary <- spawnPipe "xmobar -x 0 .dotfiles/local/xmobarrc"-}
+  xmSecondary <- spawnPipe ".dotfiles/local/xmobar_snd"
   xmonad $ defaultConfig {
       -- simple stuff
         terminal           = myTerminal,
