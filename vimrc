@@ -46,6 +46,8 @@ set laststatus=2
 set number
 set undofile
 
+set mouse=a
+
 let mapleader = ","
 
 nnoremap / /\v
