@@ -3,4 +3,10 @@
 touch $1
 chmod 700 $1
 echo -e '#!/bin/bash\n\n' > $1
-vim $1 
+
+if [ ! -t 0 ]; then
+  cat /dev/stdin >> $1 
+else
+  vim $1 
+fi
+
