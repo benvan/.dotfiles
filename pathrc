@@ -4,3 +4,4 @@ path $HOME/.cabal/bin --pre
 path $HOME/.bin
 path $HOME/.scripts
 path $HOME/.npm/bin
+path $HOME/.rvm/bin
