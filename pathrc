@@ -1,6 +1,6 @@
 #!/bin/bash
 
 path $HOME/.cabal/bin --pre
+path $HOME/.bin
 path $HOME/.scripts
-path $HOME/.scripts/spotify
-
+path $HOME/.npm/bin
