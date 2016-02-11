@@ -1,12 +1,25 @@
 [user]
-	name = Ben van Enckevort
-	email = benvan@gmail.com
+  name = Ben van Enckevort
+  email = benvan@gmail.com
+[core]
+  excludesfile = ~/.gitignore
+[credential]
+  helper = osxkeychain
 [color]
   branch = auto
   diff = auto
   status = auto
+[branch]
+  autosetupmerge = always
+  autosetuprebase = always
+[branch "master"]
+   rebase = true  
 [core]
-	autocrlf = input
+  autocrlf = input
+  editor = /usr/bin/vim
 [alias]
   lg = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%an%d%Creset %s %Cgreen(%cr)%Creset' --date=relative
   lsu = ls-files --exclude-standard --others
+  last = "!sh -c \"git for-each-ref --sort='-authordate' --format=\\''%(refname)'\\''%09'\\''%(authordate)'\\' refs/heads | head -n${1-5} | sed -e 's-refs/heads/--' | column -c 2 -t -s $'\t' | xargs dialog --menu last-branch 22 76 16 2>&1 >/dev/tty | xargs git checkout\""
+[rerere]
+  enabled = true
