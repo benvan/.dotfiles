@@ -1,0 +1,19 @@
+#!/bin/bash
+
+copyAndEcho(){
+  read x;
+  echo ' --- grabbed ' $x;
+  echo $x | pbcopy;
+}
+
+ip(){
+  local match="grep --line-buffered -E (\d{1,3}\.){3}\d{1,3}"
+  $match --color=always | tee >( $match -o | while read x; do echo $x | pbcopy; done )
+}
+
+case "$1" in
+  ip )
+    ip ;;
+  * )
+    echo unrecognised option $1;;
+esac

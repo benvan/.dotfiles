@@ -1,0 +1,31 @@
+#!/bin/bash
+
+file=
+if [ ! -t 0 ]; then
+  file=/dev/stdin
+else
+  file=$1;
+  shift;
+fi
+
+picktype=$1
+shift
+
+lines(){
+  head -n$(($1 + $2)) $file | tail -n$2
+}
+
+bytes(){
+  dd if=$file of=/dev/stdout bs=1 count=$2 skip=$1 2> /dev/null
+}
+
+  
+case $picktype in
+  "lines" )
+    lines $1 $2
+    ;;
+  "bytes" )
+    bytes $1 $2
+    ;;
+esac
+
