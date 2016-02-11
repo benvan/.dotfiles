@@ -1,26 +1,49 @@
 #!/bin/bash
 
 FILE=;
+PORT=9054
 
-if [[ $1 ]]; then
-  FILE=`basename $1`
-  FULLPATH=`readlink -f $1`
 
-  if [ -f $1 ]; then
+while [ ! $# -eq 0 ]
+do
+    echo $1
+    case "$1" in
+        -a)
+            APPEND=1;
+            ;;
+        *)
+            FILE="$1";
+            ;;
+    esac
+    shift
+done
+    echo $APPEND
+
+
+if [[ "$FILE" ]]; then
+  FILE=`basename $FILE`
+  FULLPATH=`readlink -f $FILE`
+
+  if [ -f "$FULLPATH" ] || [ -d "$FULLPATH" ]; then
     if [ ! -d ~/.pythonserver ];then
       mkdir ~/.pythonserver
     fi
+
     
     cd ~/.pythonserver
-    rm ~/.pythonserver/*
+    if [ ! $APPEND ]; then
+      rm ~/.pythonserver/*
+    fi
     ln -s $FULLPATH $FILE
   fi
 fi
 
-echo "http://"`wget http://automation.whatismyip.com/n09230945.asp -O - -o /dev/null`":8000/$FILE" | xclip -selection clipboard
+cd ~/.pythonserver
 
-if [ ! `pgrep -f "python -m SimpleHTTPServer"` ]; then
-  python -m SimpleHTTPServer
+echo "http://$(myip):$PORT/$FILE" | clip
+
+if [ ! `pgrep -f "python -m SimpleHTTPServer $PORT"` ]; then
+  python -m SimpleHTTPServer $PORT &> /dev/null &
 else
   echo Rehosted. Server still running somewhere.
 fi
