@@ -5,4 +5,4 @@ FILE="$1.c"
 touch $FILE
 echo -e '#include <stdio.h>\n\n\n' > $FILE
 echo -e 'int main(){\n\n\n}' >> $FILE
-emacs -nw $FILE
+vim $FILE
