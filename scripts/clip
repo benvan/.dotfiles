@@ -1,7 +1,10 @@
 #!/bin/bash
 
 if [ ! -t 0 ]; then
-  cat /dev/stdin | xclip -sel clipboard
+  # for future travellers - we're trying to remove the trailing newline if it exists
+  # grep sticks it there if it doesn't exist, head removes it.
+  # allows us to paste into the terminal without it automatically executing the command when it hits the newline
+  cat /dev/stdin | grep '^' | head -c-1 - | pbcopy
 else
-  xclip -o -sel clipboard
+  pbpaste
 fi
