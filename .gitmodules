@@ -16,3 +16,9 @@
 [submodule "vim/bundle/vim-rails"]
 	path = vim/bundle/vim-rails
 	url = https://github.com/pangloss/vim-rails
+[submodule "scripts/git-rewrite-author"]
+	path = scripts/git-rewrite-author
+	url = git@github.com:davidfokkema/git-rewrite-author.git
+[submodule "scripts/external/git-rewrite-author"]
+	path = scripts/external/git-rewrite-author
+	url = git@github.com:davidfokkema/git-rewrite-author.git
