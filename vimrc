@@ -47,6 +47,9 @@ set number
 set undofile
 
 set mouse=a
+nmap <LeftMouse> <nop>
+imap <LeftMouse> <nop>
+vmap <LeftMouse> <nop>
 
 let mapleader = ","
 
