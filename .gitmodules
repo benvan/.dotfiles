@@ -22,3 +22,6 @@
 [submodule "scripts/external/git-rewrite-author"]
 	path = scripts/external/git-rewrite-author
 	url = git@github.com:davidfokkema/git-rewrite-author.git
+[submodule "scripts/external/serve"]
+	path = scripts/external/serve
+	url = git@github.com:benvan/serve.git
