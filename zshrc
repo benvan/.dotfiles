@@ -22,7 +22,7 @@ source $ZSH/oh-my-zsh.sh
 source $HOME/.dotfiles/pather
 
 # invoke sandboxd setup
-source $HOME/.dotfiles/sandboxd
+source $HOME/.scripts/external/sandboxd/sandboxd
 
 function setjdk() {
   if [ $# -ne 0 ]; then

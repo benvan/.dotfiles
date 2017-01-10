@@ -1,0 +1,22 @@
+#!/bin/bash
+
+sandbox_init_nvm(){
+  source $(brew --prefix nvm)/nvm.sh
+  nvm use v6
+}
+
+sandbox_init_rvm(){
+  if test -f ~/.rvm/scripts/rvm; then
+     [ "$(type rvm | grep -o function)" = "function" ] || source ~/.rvm/scripts/rvm
+  fi
+}
+
+sandbox_init_python(){
+  source /usr/local/bin/virtualenvwrapper.sh
+}
+
+ls .nvm/versions/node/v6.1.0/bin | while read bin; do
+  sandbox_hook nvm $bin
+done
+
+sandbox_hook python workon

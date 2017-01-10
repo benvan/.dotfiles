@@ -25,3 +25,6 @@
 [submodule "scripts/external/serve"]
 	path = scripts/external/serve
 	url = git@github.com:benvan/serve.git
+[submodule "scripts/external/sandboxd"]
+	path = scripts/external/sandboxd
+	url = git@github.com:benvan/sandboxd.git
