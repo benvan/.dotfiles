@@ -1,7 +1,10 @@
 #!/bin/bash
 
-path $HOME/.cabal/bin --pre
+path /usr/local/bin --pre
 path $HOME/.bin
 path $HOME/.scripts
 path $HOME/.npm/bin
 path $HOME/.rvm/bin
+path /usr/local/opt/coreutils/libexec/gnubin --pre
+path /usr/local/opt/gnu-sed/libexec/gnubin --pre
+path /usr/local/opt/gnu-tar/libexec/gnubin --pre

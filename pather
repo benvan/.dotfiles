@@ -9,6 +9,9 @@
 # as my shell
 
 path(){
+  if [ ! -e "$1" ]; then
+    echo "WARNING: pather encountered non-existent directory [$1]"
+  fi
   echo $* | grep -- --pre > /dev/null
   if [ $? ]; then
     export PATH=$1:$PATH
