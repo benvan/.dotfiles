@@ -1,9 +1,0 @@
-#!/bin/bash
-
-val=`amixer get Master | grep Mono:`
-vol=${val#*[}
-vol=${vol%%]*}
-echo $val | grep '\[off\]' > /dev/null \
- && echo -M- \
- || echo $vol
-

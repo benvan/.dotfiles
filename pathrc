@@ -1,10 +1,11 @@
 #!/bin/bash
 
+DOTFILES=$HOME/.dotfiles
+
 path /usr/local/bin --pre
+path $DOTFILES/scripts
 path $HOME/.bin
-path $HOME/.scripts
 path $HOME/.npm/bin
-path $HOME/.rvm/bin
-path /usr/local/opt/coreutils/libexec/gnubin --pre
-path /usr/local/opt/gnu-sed/libexec/gnubin --pre
-path /usr/local/opt/gnu-tar/libexec/gnubin --pre
+path /opt/homebrew/opt/coreutils/libexec/gnubin --pre
+path /opt/homebrew/opt/gnu-sed/libexec/gnubin --pre
+path /opt/homebrew/opt/gnu-tar/libexec/gnubin --pre

@@ -1,9 +1,0 @@
-#!/bin/bash
-
-wid=$(cat ~/.scripts/data/terminals | grep "pts: $1" | sed s/.*windowid..//)
-echo navigating to window $wid
-
-#wmctrl gets a bit confused when a window lies on the boundary of a desktop, hence the +/-fullscreen
-wmctrl -i -r $wid -b add,fullscreen
-wmctrl -i -a $wid
-wmctrl -i -r $wid -b remove,fullscreen

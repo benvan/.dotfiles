@@ -1,4 +1,0 @@
-#!/bin/bash
-TARGET=tty.usbmodem1411
-stty -F /dev/$TARGET 9600 ignbrk -brkint -icrnl -imaxbel -opost -onlcr -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke min 1 time 5
-cat /dev/$TARGET | grep --line-buffered "$"

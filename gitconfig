@@ -1,6 +1,6 @@
 [user]
   name = Ben van Enckevort
-  email = benvan@gmail.com
+  email = github@benvan.co.uk
 [core]
   excludesfile = ~/.gitignore
 [credential]

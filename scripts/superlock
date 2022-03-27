@@ -1,9 +1,0 @@
-#!/bin/bash
-
-#locks and logs
-
-LOG=~/.scripts/data/locklog.txt
-
-echo "IN  : " $(date) >> $LOG
-sflock
-echo "OUT : " $(date) >> $LOG

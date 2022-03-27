@@ -1,9 +1,0 @@
-#!/bin/zsh
-
-
-cd ~/.m2/repository/com/qatarlyst
-jars=$(files jar)
-
-compctl -k jars pushdep
-
-

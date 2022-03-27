@@ -28,3 +28,6 @@
 [submodule "scripts/external/sandboxd"]
 	path = scripts/external/sandboxd
 	url = git@github.com:benvan/sandboxd.git
+[submodule "scripts/external/z.lua"]
+	path = scripts/external/z.lua
+	url = git@github.com:skywind3000/z.lua.git
