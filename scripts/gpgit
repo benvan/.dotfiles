@@ -1,0 +1,8 @@
+#!/bin/bash
+
+USERNAME=$1
+FILE=$2
+
+KEYID=`curl https://github.com/$USERNAME.gpg -s | gpg --import 2>&1 | grep ' key ' | sed 's/.* key \(.*\):.*/\1/'`
+
+gpg --recipient ${KEYID} --encrypt $FILE
