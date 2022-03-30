@@ -31,3 +31,9 @@
 [submodule "scripts/external/z.lua"]
 	path = scripts/external/z.lua
 	url = git@github.com:skywind3000/z.lua.git
+[submodule "scripts/external/mindstack"]
+	path = scripts/external/mindstack
+	url = git@github.com:minhajuddin/mindstack.git
+[submodule "scripts/external/alfred-open-windows"]
+	path = scripts/external/alfred-open-windows
+	url = https://github.com/jnewland/alfred-open-windows
