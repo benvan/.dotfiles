@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#Usage:
+#  value | enc -e
+#  value | enc -d
+
+
+set -e
+
+if [ "$1" = '-e' ]; then
+	echo "Get some secret data on your clipboard, then press enter"
+	read
+	pbpaste | openssl enc -aes-256-cbc -salt -a
+elif [ "$1" = '-d' ]; then
+	echo "Get some b64 (ensuring trailing newline) on your clipboard then press enter"
+	read
+  pbpaste | openssl enc -aes-256-cbc -salt -a -d
+else
+	cat `which enc` | head -n5 | tail -n3
+fi
+
+
