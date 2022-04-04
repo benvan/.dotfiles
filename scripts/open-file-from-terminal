@@ -1,0 +1,17 @@
+#!/bin/bash
+
+filename=$1
+linenum=$2
+colnum=$3
+
+function upsearch () {
+    test / == "$PWD" && return || test -e "$1" && echo "found: " "$PWD" && return || cd .. && upsearch "$1"
+}
+
+if upsearch .idea; then
+  /Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea --line $linenum --column $colnum $filename
+else
+  open $filename
+fi
+
+
