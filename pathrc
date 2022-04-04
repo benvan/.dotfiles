@@ -2,6 +2,7 @@
 
 DOTFILES=$HOME/.dotfiles
 
+path /usr/local/sessionmanagerplugin/bin
 path /usr/local/bin --pre
 path $DOTFILES/scripts
 path $HOME/.bin
