@@ -3,6 +3,8 @@ call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 filetype plugin indent on
 
+set re=0
+
 "let g:tex_flavor='latex'
 
 autocmd! bufwritepost .vimrc source %
