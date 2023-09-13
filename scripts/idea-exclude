@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+
+function upsearch () {
+		CURRENT=`pwd`
+		ORIGINAL=${2:-$CURRENT}
+		if [[ / = "$PWD" ]]; then
+			cd $ORIGINAL
+		elif [[ -e "$1" ]]; then
+			cd $ORIGINAL
+			echo $CURRENT
+		else
+			cd ..
+			upsearch "$1" "$ORIGINAL"
+		fi
+}
+
+set -o errexit
+set -o nounset
+set -o pipefail
+if [[ "${TRACE-0}" == "1" ]]; then
+    set -o xtrace
+fi
+
+help() {
+    echo 'Usage: ./idea-exclude folder-name
+
+Run from root of an intellij project. Adds all occurances of <folder-name> to your intellij exclude list.
+'
+}
+
+if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
+    help
+    exit
+fi
+
+
+main() {
+
+  local ARG1=${1}
+  if [ -z "$ARG1" ]; then
+    echo "missing args, running --help for you:"
+    echo
+    help
+    exit 1
+  fi
+
+	# find intellij root
+	IDEA_ROOT=$(upsearch .idea)
+
+	if [[ -z "$IDEA_ROOT" ]]; then
+		echo "It doesn't look like you are in intellij project (no .idea found above this folder)"
+		exit 1
+	fi
+
+  # fd is much faster
+	FILES=`fd --type d -H "$ARG1" --glob`
+	#FILES=`find . -name $ARG1 -prune`
+
+	if [ -z "$FILES" ]; then
+		echo "No folders matching \"${ARG1}\" found. Exiting"
+		exit 0
+	fi;
+
+  echo "Will add the following to current project's exclude list:"
+	echo "$FILES"
+	
+	echo
+	read -n 1 -s -r -p "Press any key to continue"
+
+XSLT_SCRIPT=$(cat <<-END
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:template match="@*|node()">
+		<xsl:copy>
+			<xsl:apply-templates select="@*|node()"/>
+		</xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="module/component/content">
+		<xsl:copy>
+			<xsl:apply-templates select="@*|node()"/>
+			<!-- excludes here -->
+			$(echo "$FILES" | sed 's#^\./\(.*\)#<excludeFolder url="file://\$MODULE_DIR\$/\1" />#')
+		</xsl:copy>
+	</xsl:template>
+</xsl:stylesheet>
+END
+)
+
+
+
+	IML_FILE=`\ls $IDEA_ROOT/.idea/*.iml` # heavily assumes there's only one...
+	IML_FILE_BAK="$IML_FILE.bak"
+	cp $IML_FILE $IML_FILE_BAK
+
+	echo $IML_FILE $IML_FILE_BAK
+	xsltproc <(echo $XSLT_SCRIPT) "$IML_FILE_BAK" > $IML_FILE
+
+	echo Done.
+	
+
+}
+
+main "$@"
