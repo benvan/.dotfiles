@@ -2,7 +2,9 @@
 
 touch $1
 chmod 755 $1
-echo -e '#!/bin/bash\n\n' > $1
+
+cat ~/.dotfiles/scripts/_mkbash_template.sh | sed 's/script.sh/'$1'/' > $1
+
 
 if [ ! -t 0 ]; then
   cat /dev/stdin >> $1 
