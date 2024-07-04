@@ -2,6 +2,8 @@
 
 DOTFILES=$HOME/.dotfiles
 
+path $HOME/.yarn/bin
+path /opt/homebrew/opt/libpq/bin --pre
 path /usr/local/sessionmanagerplugin/bin
 path /usr/local/bin --pre
 path $DOTFILES/scripts
@@ -10,3 +12,7 @@ path $HOME/.npm/bin
 path /opt/homebrew/opt/coreutils/libexec/gnubin --pre
 path /opt/homebrew/opt/gnu-sed/libexec/gnubin --pre
 path /opt/homebrew/opt/gnu-tar/libexec/gnubin --pre
+path /Users/ben/projects/metomic/gpt/tools/bot
+path `brew --prefix python3`/libexec/bin
+path $DOTFILES/scripts/external/pdf2text_mac
+path $DOTFILES/bash_to_basics

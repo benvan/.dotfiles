@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+if [[ "${TRACE-0}" == "1" ]]; then
+    set -o xtrace
+fi
+
+help() {
+    echo 'Usage: ./script.sh arg-one arg-two
+
+This is an awesome bash script to make your life better.
+
+'
+}
+
+if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
+    help
+    exit
+fi
+
+cd "$(dirname "$0")"
+
+main() {
+
+  local ARG1=${1-"default"}
+  if [ -z "$ARG1" ]; then
+    echo "missing args, running --help for you:"
+    echo
+    help
+    exit 1
+  fi
+
+	echo do awesome stuff
+}
+
+main "$@"

@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+if [[ "${TRACE-0}" == "1" ]]; then
+    set -o xtrace
+fi
+
+help() {
+    echo 'Usage: ./echoserver <port=9999>
+
+'
+}
+
+if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
+    help
+    exit
+fi
+
+cd "$(dirname "$0")"
+
+handle() {
+  echo 'HTTP/1.0 200 OK'
+  echo 'Content-Type: text/plain'
+  echo "Date: $(date)"
+  echo "Server: $SOCAT_SOCKADDR:$SOCAT_SOCKPORT"
+  echo "Client: $SOCAT_PEERADDR:$SOCAT_PEERPORT"
+  echo 'Connection: close'
+  echo
+  cat
+}
+
+
+main() {
+
+  local ARG1=${1-"9999"}
+  if [ -z "$ARG1" ]; then
+    echo "missing args, running --help for you:"
+    echo
+    help
+    exit 1
+  fi
+
+	echo "Running echoserver on port ${ARG1}"
+	socat -T0.05 -v tcp-l:$ARG1,reuseaddr,fork,crlf system:". $0 && handle"
+
+	#ncat -l $ARG1 --keep-open --exec "/bin/cat"
+}
+
+main "$@"
